@@ -1,0 +1,101 @@
+abstract public class Employee {
+int empID;
+String empname;
+int total_leaves;
+double total_salary;
+
+Employee(int id,String name,int total,double sal){
+	empID=id;
+	empname=name;
+	total_leaves=total;
+	total_salary=sal;
+}
+
+abstract void calculate_balance_leaves();
+abstract boolean avail_leave(int no_of_leaves, char type_of_leave);
+abstract void calculate_salary();
+
+}
+
+public class PermanentEmp extends Employee {
+PermanentEmp(int id, String name, int total, double sal) {
+		super(id, name, total, sal);
+		
+	}
+
+int paid_leave=10,sick_leave=5,casual_leave=5;
+double basic=10000,hra=5000,pfa=2000;
+	void print_leave_details(){
+		System.out.println("Paid Leave"+paid_leave+"Sick Leave="+sick_leave+"Casual Leave="+casual_leave);
+	}
+	void calculate_balance_leaves() {
+		int total=total_leaves-(paid_leave+sick_leave+casual_leave);
+		System.out.println("Leave Balance ="+total);
+	}
+
+	boolean avail_leave(int no_of_leaves, char type_of_leave) {
+		if(no_of_leaves<total_leaves)
+			return true;
+		else
+			return false;
+	}
+
+	void calculate_salary() {
+		double hr=0.5f*basic;
+		double da=0.2f*basic;
+		double tsal=total_salary+(hr+da)-pfa;
+		System.out.println("Salary="+tsal);
+		
+		
+	}
+
+}
+
+
+public class TemporaryEmp extends Employee {
+
+	TemporaryEmp(int id, String name, int total, double sal) {
+		super(id, name, total, sal);
+	}
+
+	void calculate_balance_leaves() {
+		System.out.println("Not eligilble for any leaves");
+	}
+
+	boolean avail_leave(int no_of_leaves, char type_of_leave) {
+		return false;
+	}
+
+	void calculate_salary() {
+		float hrs=(float) 30.50;
+		int rate = 1000;
+		double tsal=hrs*rate;
+		System.out.println("Salary="+tsal);
+		
+	}
+
+}
+
+
+public class Employees {
+	public static void main(String[] args) {
+		Employee e1=new PermanentEmp(57120,"ABC",30,30000);
+		System.out.println("Permanent Employee Details");
+		System.out.println("Employee Name="+e1.empname);
+		System.out.println("Employee Name="+e1.empID);
+		System.out.println("Employee Name="+e1.total_leaves);
+		e1.calculate_balance_leaves();
+		e1.avail_leave(20, (char) 0);
+		e1.calculate_salary();
+		System.out.println("------------------------------------------------------------------");
+		Employee t1=new TemporaryEmp(574581,"XYZ",0,20000);
+		System.out.println("Temorary Employee Details");
+		System.out.println("Employee Name="+t1.empname);
+		System.out.println("Employee Name="+t1.empID);
+		t1.calculate_balance_leaves();
+		t1.avail_leave(20, (char) 0);
+		t1.calculate_salary();
+		
+		
+}
+}
